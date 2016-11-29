@@ -19,11 +19,11 @@ public class Runner {
 		equation.setRealFunction("x*x+t*t+x*x*t*t");
 
 		ParametrsString parametrs = new ParametrsString();
-		parametrs.seteSystem("1E-10");
+		parametrs.seteSystem("1E-12");
 		parametrs.setFragmentationT("10");
 		parametrs.setFragmentationX("10");
 		parametrs.settFrom("0.0");
-		parametrs.settTo("1.0");
+		parametrs.settTo("2.0");
 		parametrs.setxFrom("1.0");
 		parametrs.setxTo("2.0");
 

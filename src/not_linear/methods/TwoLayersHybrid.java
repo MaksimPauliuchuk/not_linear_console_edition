@@ -57,7 +57,7 @@ public class TwoLayersHybrid {
 		// to solve system
 		double vectorDelta_Xn[];
 		double vectorF_Xn[] = new double[N + 1];
-		double vectorY_M_iter[] = stroka.clone();
+		double vectorX_M_iter[] = stroka.clone();
 		double[] left = new double[N], center = new double[N + 1], right = new double[N];
 
 		// parameters of our equation
@@ -67,7 +67,7 @@ public class TwoLayersHybrid {
 		double mu_left = Calculator.mu_left(equation.getMu_left(), xFrom, tFrom + tao * m);
 		double mu_right = Calculator.mu_right(equation.getMu_right(), xTo, tFrom + tao * m);
 
-		for (int n = 1; n < k_u.length - 1; n++) {
+		for (int n = 0; n < k_u.length; n++) {
 			k_u[n] = Calculator.k_u(equation.getK_u(), xFrom + n * h, tFrom + tao * m, stroka[n]);
 			k[n] = Calculator.k(equation.getK(), xFrom + n * h, tFrom + tao * m, stroka[n]);
 			g[n] = Calculator.g(equation.getG(), xFrom + n * h, tFrom + tao * m, stroka[n]);
@@ -81,9 +81,7 @@ public class TwoLayersHybrid {
 		double y2_y0 = 0.0;
 		double norma_Xn = 0.0;
 		double norma_XnPlus = 0.0;
-
 		int n = 0;
-
 		switch (numberBeta) {
 		case 1: {
 			beta = 1;
@@ -102,21 +100,23 @@ public class TwoLayersHybrid {
 			beta = 0.1;
 			break;
 		}
+
 		while (true) {
 			center[0] = center[N] = 1;
-			vectorF_Xn[0] = vectorY_M_iter[0] - mu_left;
-			vectorF_Xn[N] = vectorY_M_iter[N] - mu_right;
+			vectorF_Xn[0] = vectorX_M_iter[0] - mu_left;
+			vectorF_Xn[N] = vectorX_M_iter[N] - mu_right;
 			for (n = 1; n < center.length - 1; n++) {
-				y2_y0 = vectorY_M_iter[n + 1] - vectorY_M_iter[n - 1];
+				y2_y0 = vectorX_M_iter[n + 1] - vectorX_M_iter[n - 1];
 				left[n - 1] = k_u[n] * y2_y0 / (2 * h * h) - k[n] / (h * h);
 				center[n] = 1.0 / tao + 2 * k[n] / (h * h);
 				right[n] = -k_u[n] * y2_y0 / (2 * h * h) - k[n] / (h * h);
-				vectorF_Xn[n] = (vectorY_M_iter[n] - stroka[n]) / tao
-						- k_u[n] * Math.pow((vectorY_M_iter[n + 1] - vectorY_M_iter[n - 1]) / (2 * h), 2)
-						- k[n] * (vectorY_M_iter[n + 1] - 2 * vectorY_M_iter[n] + vectorY_M_iter[n - 1]) / (h * h)
+				vectorF_Xn[n] = (vectorX_M_iter[n] - stroka[n]) / tao
+						- k_u[n] * Math.pow((vectorX_M_iter[n + 1] - vectorX_M_iter[n - 1]) / (2.0 * h), 2)
+						- k[n] * (vectorX_M_iter[n + 1] - 2 * vectorX_M_iter[n] + vectorX_M_iter[n - 1]) / (h * h)
 						- g[n];
 			}
 
+			norma_Xn = 0.0;
 			for (n = 0; n < vectorF_Xn.length; n++) {
 				norma_Xn += Math.pow(vectorF_Xn[n], 2);
 				vectorF_Xn[n] *= -beta;
@@ -124,24 +124,24 @@ public class TwoLayersHybrid {
 			norma_Xn = Math.sqrt(norma_Xn);
 
 			vectorDelta_Xn = TridiagonalMatrixSolution.Solve(left, center, right, vectorF_Xn);
-			for (n = 0; n < vectorY_M_iter.length; n++) {
-				vectorY_M_iter[n] += vectorDelta_Xn[n];
+			for (n = 0; n < vectorX_M_iter.length; n++) {
+				vectorX_M_iter[n] += vectorDelta_Xn[n];
 			}
 
-			norma_XnPlus += Math.pow(vectorY_M_iter[0] - mu_left, 2);
-			norma_XnPlus += Math.pow(vectorY_M_iter[N] - mu_right, 2);
-			for (n = 1; n < vectorY_M_iter.length - 1; n++) {
-				norma_XnPlus += Math.pow((vectorY_M_iter[n] - stroka[n]) / tao
-						- k_u[n] * Math.pow((vectorY_M_iter[n + 1] - vectorY_M_iter[n - 1]) / (2 * h), 2)
-						- k[n] * ((vectorY_M_iter[n + 1] - 2 * vectorY_M_iter[n] + vectorY_M_iter[n - 1])) / (h * h)
+			norma_XnPlus = 0.0;
+			norma_XnPlus += Math.pow(vectorX_M_iter[0] - mu_left, 2);
+			norma_XnPlus += Math.pow(vectorX_M_iter[N] - mu_right, 2);
+			for (n = 1; n < vectorX_M_iter.length - 1; n++) {
+				norma_XnPlus += Math.pow((vectorX_M_iter[n] - stroka[n]) / tao
+						- k_u[n] * Math.pow((vectorX_M_iter[n + 1] - vectorX_M_iter[n - 1]) / (2 * h), 2)
+						- k[n] * ((vectorX_M_iter[n + 1] - 2 * vectorX_M_iter[n] + vectorX_M_iter[n - 1])) / (h * h)
 						- g[n], 2);
 			}
 			norma_XnPlus = Math.sqrt(norma_XnPlus);
 
 			System.out.println(norma_XnPlus);
-			if (norma_XnPlus <= 0.1) {
-				System.out.println();
-				return progonkaCube(m, stroka, tao, vectorY_M_iter);
+			if (norma_XnPlus <= 1e-1) {
+				return progonkaCube(m, stroka, tao, vectorX_M_iter);
 			} else {
 				switch (numberBeta) {
 				case 1: {
@@ -166,7 +166,7 @@ public class TwoLayersHybrid {
 		}
 	}
 
-	private double[] progonkaCube(final int m, final double[] stroka, final double tao, final double[] y_m_stroka) {
+	private double[] progonkaCube(final int m, final double[] stroka, final double tao, final double[] x_m_stroka) {
 		// start data
 		int N = this.parametrs.getFragmentationX();
 		double tFrom = this.parametrs.gettFrom();
@@ -178,8 +178,8 @@ public class TwoLayersHybrid {
 		double vectorDelta_Yn[];
 		double vectorF_Xn[] = new double[N + 1];
 		double vectorF_Yn[] = new double[N + 1];
-		double vectorX_M_iter[] = y_m_stroka.clone();
-		double vectorY_M_iter[] = y_m_stroka.clone();
+		double vectorX_M_iter[] = x_m_stroka.clone();
+		double vectorY_M_iter[] = x_m_stroka.clone();
 		double[] left = new double[N], center = new double[N + 1], right = new double[N];
 		double fun[] = new double[N + 1];
 
@@ -205,9 +205,11 @@ public class TwoLayersHybrid {
 		double norma_Xn = 0.0;
 		double norma_XnPlus = 0.0;
 		int n = 0;
+		int iter = 0;
 
 		while (true) {
-			center[0] = center[N] = 1;
+			iter++;
+			center[0] = center[N] = 1.0;
 			vectorF_Xn[0] = vectorX_M_iter[0] - mu_left;
 			vectorF_Xn[N] = vectorX_M_iter[N] - mu_right;
 			for (n = 1; n < center.length - 1; n++) {
@@ -221,6 +223,7 @@ public class TwoLayersHybrid {
 						- g[n];
 			}
 
+			norma_Xn = 0.0;
 			for (n = 0; n < vectorF_Xn.length; n++) {
 				norma_Xn += Math.pow(vectorF_Xn[n], 2);
 				vectorF_Xn[n] *= -1.0;
@@ -248,6 +251,8 @@ public class TwoLayersHybrid {
 			for (n = 0; n < vectorDelta_Xn.length; n++) {
 				vectorX_M_iter[n] += beta * vectorDelta_Xn[n];
 			}
+
+			norma_XnPlus = 0.0;
 			norma_XnPlus += Math.pow(vectorX_M_iter[0] - mu_left, 2);
 			norma_XnPlus += Math.pow(vectorX_M_iter[N] - mu_right, 2);
 			for (n = 1; n < vectorX_M_iter.length - 1; n++) {
@@ -259,7 +264,7 @@ public class TwoLayersHybrid {
 			norma_XnPlus = Math.sqrt(norma_XnPlus);
 			System.out.println("Layer:" + m + ", " + norma_XnPlus);
 
-			if (norma_XnPlus <= parametrs.geteSystem()) {
+			if (norma_XnPlus <= parametrs.geteSystem() || iter > 100) {
 				return vectorX_M_iter;
 			} else if (norma_XnPlus < norma_Xn) {
 				beta = 1;
@@ -268,88 +273,6 @@ public class TwoLayersHybrid {
 				betaminus = beta;
 				beta = Math.min(1.0, (gamma * norma_Xn) / (norma_XnPlus * beta));
 				gamma = (beta / betaminus) * (gamma * norma_Xn) / (betaminus * norma_XnPlus);
-			}
-		}
-	}
-
-	private double[] NewProgonka(final int m, final double[] stroka, final double tao) {
-		int N = this.parametrs.getFragmentationX();
-		double tFrom = this.parametrs.gettFrom();
-		double tTo = this.parametrs.gettTo();
-		double xFrom = this.parametrs.getxFrom();
-		double xTo = this.parametrs.getxTo();
-		double beta = 0.1, gamma = 0.01, betaminus, vectorDelta_Xn[], vectorDelta_Zn[], vectorF_Xn[], vectorF_Zn[],
-				vectorX_M_iter[], vectorZ_M_iter[], vectorY_M_iter[];
-		double[] left = new double[N], center = new double[N + 1], right = new double[N];
-		vectorF_Xn = new double[N + 1];
-		vectorF_Zn = new double[N + 1];
-		vectorX_M_iter = stroka.clone();
-		vectorY_M_iter = stroka.clone();
-		vectorZ_M_iter = stroka.clone();
-		while (true) {
-			center[0] = center[N] = 1;
-			vectorF_Xn[0] = vectorX_M_iter[0] - Calculator.mu_left(equation.getMu_left(), xFrom, tFrom + tao * m);
-			vectorF_Xn[N] = vectorX_M_iter[N] - Calculator.mu_right(equation.getMu_right(), xTo, tFrom + tao * m);
-			for (int n = 1; n < center.length - 1; n++) {
-				left[n - 1] = ((Calculator.k_u(equation.getK_u(), xFrom + n * h, tFrom + tao * m, stroka[n]))
-						/ (2 * h * h)) * (vectorX_M_iter[n + 1] - vectorX_M_iter[n - 1])
-						- Calculator.k(equation.getK(), xFrom + n * h, tFrom + tao * m, stroka[n]) / (h * h);
-				center[n] = 1.0 / tao
-						+ (2 * Calculator.k(equation.getK(), xFrom + n * h, tFrom + tao * m, stroka[n])) / (h * h);
-				right[n] = -(Calculator.k_u(equation.getK_u(), xFrom + n * h, tFrom + tao * m, stroka[n]) / (2 * h * h))
-						* (vectorX_M_iter[n + 1] - vectorX_M_iter[n - 1])
-						- (Calculator.k(equation.getK(), xFrom + n * h, tFrom + tao * m, stroka[n])) / (h * h);
-				vectorF_Xn[n] = (vectorX_M_iter[n] - stroka[n]) / tao
-						- (Calculator.k_u(equation.getK_u(), xFrom + n * h, tFrom + tao * m, stroka[n]))
-								* Math.pow((vectorX_M_iter[n + 1] - vectorX_M_iter[n - 1]) / (2 * h), 2)
-						- Calculator.k(equation.getK(), xFrom + n * h, tFrom + tao * m, stroka[n]) / (h * h)
-								* ((vectorX_M_iter[n + 1] - 2 * vectorX_M_iter[n] + vectorX_M_iter[n - 1]))
-						- Calculator.g(equation.getG(), xFrom + n * h, tFrom + tao * m, stroka[n]);
-			}
-			double norma_Xn = 0.0;
-			for (int n = 0; n < vectorF_Xn.length; n++) {
-				norma_Xn += Math.pow(vectorF_Xn[n], 2);
-				vectorF_Xn[n] *= -1;
-			}
-			norma_Xn = Math.sqrt(norma_Xn);
-			vectorDelta_Zn = TridiagonalMatrixSolution.Solve(left, center, right, vectorF_Xn);
-
-			for (int n = 0; n < vectorF_Zn.length; n++) {
-				vectorZ_M_iter[n] = vectorX_M_iter[n] + vectorDelta_Zn[n];
-				vectorF_Zn[n] *= -beta;
-				vectorF_Zn[n] += vectorF_Xn[n];
-			}
-
-			vectorDelta_Xn = TridiagonalMatrixSolution.Solve(left, center, right, vectorF_Zn);
-
-			for (int n = 0; n < vectorY_M_iter.length; n++) {
-				vectorY_M_iter[n] += beta * vectorDelta_Xn[n];
-			}
-			double norma_XnPlus = 0.0;
-			norma_XnPlus += Math
-					.pow(vectorY_M_iter[0] - Calculator.mu_left(equation.getMu_left(), xFrom, tFrom + tao * m), 2);
-			norma_XnPlus += Math
-					.pow(vectorY_M_iter[N] - Calculator.mu_right(equation.getMu_right(), xTo, tFrom + tao * m), 2);
-			for (int n = 1; n < vectorY_M_iter.length - 1; n++) {
-				norma_XnPlus += Math.pow((vectorY_M_iter[n] - stroka[n]) / tao
-						- (Calculator.k_u(equation.getK_u(), xFrom + n * h, tFrom + tao * m, stroka[n]))
-								* Math.pow((vectorY_M_iter[n + 1] - vectorY_M_iter[n - 1]) / (2 * h), 2)
-						- Calculator.k(equation.getK(), xFrom + n * h, tFrom + tao * m, stroka[n]) / (h * h)
-								* ((vectorY_M_iter[n + 1] - 2 * vectorY_M_iter[n] + vectorY_M_iter[n - 1]))
-						- Calculator.g(equation.getG(), xFrom + n * h, tFrom + tao * m, stroka[n]), 2);
-			}
-
-			norma_XnPlus = Math.sqrt(norma_XnPlus);
-			System.out.println(norma_XnPlus);
-			if (norma_XnPlus <= parametrs.geteSystem()) {
-				return vectorY_M_iter;
-			}
-			if (norma_XnPlus < norma_Xn) {
-				beta = 1;
-			} else {
-				betaminus = beta;
-				beta = Math.min(1.0, (gamma * norma_Xn) / (norma_XnPlus * beta));
-				gamma = gamma * (norma_Xn / norma_XnPlus) * (beta / betaminus);
 			}
 		}
 	}

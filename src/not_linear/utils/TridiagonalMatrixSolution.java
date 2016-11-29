@@ -1,7 +1,7 @@
 package not_linear.utils;
 
 public class TridiagonalMatrixSolution {
-	public static double[] Solve(double[][] matrix, double[] f) {
+	public static double[] Solve(final double[][] matrix, final double[] f) {
 		double[][] AdditionalValues = new double[2][matrix.length];
 		AdditionalValues[0][0] = -matrix[0][1] / matrix[0][0];
 		AdditionalValues[1][0] = f[0] / matrix[0][0];
@@ -44,7 +44,7 @@ public class TridiagonalMatrixSolution {
 		return x;
 	}
 
-	public static void Print(double[][] matrix) {
+	public static void Print(final double[][] matrix) {
 		System.out.println("Matrix demension is " + matrix.length + "x" + matrix[0].length + ".");
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[i].length; j++) {
@@ -55,7 +55,7 @@ public class TridiagonalMatrixSolution {
 		System.out.println();
 	}
 
-	public static void Print(double[] f) {
+	public static void Print(final double[] f) {
 		System.out.println("Demension is " + f.length + ".");
 		for (int i = 0; i < f.length; i++) {
 			System.out.printf("%9.13f ", f[i]);
@@ -64,7 +64,7 @@ public class TridiagonalMatrixSolution {
 		System.out.println();
 	}
 
-	public static void Print(double[][] matrix, double[] f) {
+	public static void Print(final double[][] matrix, final double[] f) {
 		System.out.println("Matrix demension is " + matrix.length + "x" + matrix[0].length + ".");
 		System.out.println("Free row demension is " + f.length + ".");
 		for (int i = 0; i < matrix.length; i++) {
