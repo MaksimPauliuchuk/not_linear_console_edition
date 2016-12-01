@@ -19,16 +19,23 @@ public class Runner {
 		equation.setRealFunction("x*x+t*t+x*x*t*t");
 
 		ParametrsString parametrs = new ParametrsString();
-		parametrs.seteSystem("1E-12");
-		parametrs.setFragmentationT("10");
-		parametrs.setFragmentationX("10");
+		parametrs.seteSystem("1E-25");
+		parametrs.setFragmentationT("1000");
+		parametrs.setFragmentationX("100");
 		parametrs.settFrom("0.0");
-		parametrs.settTo("2.0");
-		parametrs.setxFrom("1.0");
-		parametrs.setxTo("2.0");
+		parametrs.settTo("1.0");
+		parametrs.setxFrom("0.0");
+		parametrs.setxTo("1.0");
 
 		TwoLayersHybrid twoLayersHybrid = new TwoLayersHybrid(equation, parametrs);
-		TridiagonalMatrixSolution.Print(twoLayersHybrid.getAnswer());
+		double[] a = twoLayersHybrid.getAnswer();
+		TridiagonalMatrixSolution.Print(a);
+
+		double norm = 0.0;
+		for (int i = 0; i < 11; i++) {
+			norm += Math.pow(a[i] - (i * i * 0.1 * 0.1 + 1 + i * i * 0.1 * 0.1 * 1), 2);
+		}
+		System.out.println(Math.sqrt(norm));
 
 	}
 }

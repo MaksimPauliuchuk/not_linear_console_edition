@@ -82,6 +82,7 @@ public class TwoLayersHybrid {
 		double norma_Xn = 0.0;
 		double norma_XnPlus = 0.0;
 		int n = 0;
+		int iter = 0;
 		switch (numberBeta) {
 		case 1: {
 			beta = 1;
@@ -102,6 +103,7 @@ public class TwoLayersHybrid {
 		}
 
 		while (true) {
+			iter++;
 			center[0] = center[N] = 1;
 			vectorF_Xn[0] = vectorX_M_iter[0] - mu_left;
 			vectorF_Xn[N] = vectorX_M_iter[N] - mu_right;
@@ -123,7 +125,11 @@ public class TwoLayersHybrid {
 			}
 			norma_Xn = Math.sqrt(norma_Xn);
 
-			vectorDelta_Xn = TridiagonalMatrixSolution.Solve(left, center, right, vectorF_Xn);
+			if (iter <= 100) {
+				vectorDelta_Xn = TridiagonalMatrixSolution.Solve(left, center, right, vectorF_Xn);
+			} else {
+				vectorDelta_Xn = TridiagonalMatrixSolution.SolveBD(left, center, right, vectorF_Xn);
+			}
 			for (n = 0; n < vectorX_M_iter.length; n++) {
 				vectorX_M_iter[n] += vectorDelta_Xn[n];
 			}
@@ -140,7 +146,7 @@ public class TwoLayersHybrid {
 			norma_XnPlus = Math.sqrt(norma_XnPlus);
 
 			System.out.println(norma_XnPlus);
-			if (norma_XnPlus <= 1e-1) {
+			if (norma_XnPlus <= 1e-1 || iter > 120) {
 				return progonkaCube(m, stroka, tao, vectorX_M_iter);
 			} else {
 				switch (numberBeta) {
@@ -230,7 +236,12 @@ public class TwoLayersHybrid {
 			}
 			norma_Xn = Math.sqrt(norma_Xn);
 
-			vectorDelta_Yn = TridiagonalMatrixSolution.Solve(left, center, right, vectorF_Xn);
+			if (iter <= 100) {
+				vectorDelta_Yn = TridiagonalMatrixSolution.Solve(left, center, right, vectorF_Xn);
+			} else {
+				vectorDelta_Yn = TridiagonalMatrixSolution.SolveBD(left, center, right, vectorF_Xn);
+			}
+
 			for (n = 0; n < vectorX_M_iter.length; n++) {
 				vectorY_M_iter[n] = vectorX_M_iter[n] + vectorDelta_Yn[n];
 			}
@@ -246,7 +257,12 @@ public class TwoLayersHybrid {
 			for (n = 0; n < fun.length; n++) {
 				fun[n] = vectorF_Xn[n] - beta * vectorF_Yn[n];
 			}
-			vectorDelta_Xn = TridiagonalMatrixSolution.Solve(left, center, right, fun);
+			if (iter <= 100) {
+				vectorDelta_Xn = TridiagonalMatrixSolution.Solve(left, center, right, fun);
+			} else {
+				vectorDelta_Xn = TridiagonalMatrixSolution.SolveBD(left, center, right, fun);
+				TridiagonalMatrixSolution.Print(vectorDelta_Xn);
+			}
 
 			for (n = 0; n < vectorDelta_Xn.length; n++) {
 				vectorX_M_iter[n] += beta * vectorDelta_Xn[n];
@@ -264,7 +280,7 @@ public class TwoLayersHybrid {
 			norma_XnPlus = Math.sqrt(norma_XnPlus);
 			System.out.println("Layer:" + m + ", " + norma_XnPlus);
 
-			if (norma_XnPlus <= parametrs.geteSystem() || iter > 100) {
+			if (norma_XnPlus <= parametrs.geteSystem() || iter > 120) {
 				return vectorX_M_iter;
 			} else if (norma_XnPlus < norma_Xn) {
 				beta = 1;
