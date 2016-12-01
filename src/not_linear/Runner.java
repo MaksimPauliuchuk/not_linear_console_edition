@@ -20,8 +20,8 @@ public class Runner {
 
 		ParametrsString parametrs = new ParametrsString();
 		parametrs.seteSystem("1E-25");
-		parametrs.setFragmentationT("1000");
-		parametrs.setFragmentationX("100");
+		parametrs.setFragmentationT("100");
+		parametrs.setFragmentationX("10");
 		parametrs.settFrom("0.0");
 		parametrs.settTo("1.0");
 		parametrs.setxFrom("0.0");

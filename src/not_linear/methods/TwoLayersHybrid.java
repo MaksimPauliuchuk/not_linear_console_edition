@@ -261,7 +261,6 @@ public class TwoLayersHybrid {
 				vectorDelta_Xn = TridiagonalMatrixSolution.Solve(left, center, right, fun);
 			} else {
 				vectorDelta_Xn = TridiagonalMatrixSolution.SolveBD(left, center, right, fun);
-				TridiagonalMatrixSolution.Print(vectorDelta_Xn);
 			}
 
 			for (n = 0; n < vectorDelta_Xn.length; n++) {
