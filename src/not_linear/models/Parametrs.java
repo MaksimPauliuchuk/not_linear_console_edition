@@ -1,125 +1,121 @@
 package not_linear.models;
 
-public class Parametrs
-{
-    private double lengthT;
-    private double lengthX;
-    private double tFrom;
-    private double tTo;
-    private double xFrom;
-    private double xTo;
-    private int fragmentationT;
-    private int fragmentationX;
-    private double eSystem;
+public class Parametrs {
+	private double lengthT;
+	private double lengthX;
+	private double tFrom;
+	private double tTo;
+	private double xFrom;
+	private double xTo;
+	private int fragmentationT;
+	private int fragmentationX;
+	private double eSystemSquare;
+	private double eSystemCube;
+	private double eRunge;
+	private int maxIterProgonka;
+	private int maxIterBigDecimal;
 
-    public Parametrs()
-    {
-        super();
-    }
+	public double getLengthT() {
+		return lengthT;
+	}
 
-    public Parametrs(double lengthT, double lengthX, double tFrom, double tTo, double xFrom, double xTo,
-            int fragmentationT, int fragmentationX, double eSystem)
-    {
-        super();
-        this.lengthT = lengthT;
-        this.lengthX = lengthX;
-        this.tFrom = tFrom;
-        this.tTo = tTo;
-        this.xFrom = xFrom;
-        this.xTo = xTo;
-        this.fragmentationT = fragmentationT;
-        this.fragmentationX = fragmentationX;
-        this.eSystem = eSystem;
-    }
+	public void setLengthT(double lengthT) {
+		this.lengthT = lengthT;
+	}
 
-    public double getLengthT()
-    {
-        return lengthT;
-    }
+	public double getLengthX() {
+		return lengthX;
+	}
 
-    public void setLengthT(double lengthT)
-    {
-        this.lengthT = lengthT;
-    }
+	public void setLengthX(double lengthX) {
+		this.lengthX = lengthX;
+	}
 
-    public double getLengthX()
-    {
-        return lengthX;
-    }
+	public double gettFrom() {
+		return tFrom;
+	}
 
-    public void setLengthX(double lengthX)
-    {
-        this.lengthX = lengthX;
-    }
+	public void settFrom(double tFrom) {
+		this.tFrom = tFrom;
+	}
 
-    public double gettFrom()
-    {
-        return tFrom;
-    }
+	public double gettTo() {
+		return tTo;
+	}
 
-    public void settFrom(double tFrom)
-    {
-        this.tFrom = tFrom;
-    }
+	public void settTo(double tTo) {
+		this.tTo = tTo;
+	}
 
-    public double gettTo()
-    {
-        return tTo;
-    }
+	public double getxFrom() {
+		return xFrom;
+	}
 
-    public void settTo(double tTo)
-    {
-        this.tTo = tTo;
-    }
+	public void setxFrom(double xFrom) {
+		this.xFrom = xFrom;
+	}
 
-    public double getxFrom()
-    {
-        return xFrom;
-    }
+	public double getxTo() {
+		return xTo;
+	}
 
-    public void setxFrom(double xFrom)
-    {
-        this.xFrom = xFrom;
-    }
+	public void setxTo(double xTo) {
+		this.xTo = xTo;
+	}
 
-    public double getxTo()
-    {
-        return xTo;
-    }
+	public int getFragmentationT() {
+		return fragmentationT;
+	}
 
-    public void setxTo(double xTo)
-    {
-        this.xTo = xTo;
-    }
+	public void setFragmentationT(int fragmentationT) {
+		this.fragmentationT = fragmentationT;
+	}
 
-    public int getFragmentationT()
-    {
-        return fragmentationT;
-    }
+	public int getFragmentationX() {
+		return fragmentationX;
+	}
 
-    public void setFragmentationT(int fragmentationT)
-    {
-        this.fragmentationT = fragmentationT;
-    }
+	public void setFragmentationX(int fragmentationX) {
+		this.fragmentationX = fragmentationX;
+	}
 
-    public int getFragmentationX()
-    {
-        return fragmentationX;
-    }
+	public double geteSystemSquare() {
+		return eSystemSquare;
+	}
 
-    public void setFragmentationX(int fragmentationX)
-    {
-        this.fragmentationX = fragmentationX;
-    }
+	public void seteSystemSquare(double eSystemSquare) {
+		this.eSystemSquare = eSystemSquare;
+	}
 
-    public double geteSystem()
-    {
-        return eSystem;
-    }
+	public double geteSystemCube() {
+		return eSystemCube;
+	}
 
-    public void seteSystem(double eSystem)
-    {
-        this.eSystem = eSystem;
-    }
+	public void seteSystemCube(double eSystemCube) {
+		this.eSystemCube = eSystemCube;
+	}
 
+	public double geteRunge() {
+		return eRunge;
+	}
+
+	public void seteRunge(double eRunge) {
+		this.eRunge = eRunge;
+	}
+
+	public int getMaxIterProgonka() {
+		return maxIterProgonka;
+	}
+
+	public void setMaxIterProgonka(int maxIterProgonka) {
+		this.maxIterProgonka = maxIterProgonka;
+	}
+
+	public int getMaxIterBigDecimal() {
+		return maxIterBigDecimal;
+	}
+
+	public void setMaxIterBigDecimal(int maxIterBigDecimal) {
+		this.maxIterBigDecimal = maxIterBigDecimal;
+	}
 }

@@ -1,101 +1,104 @@
 package not_linear.models;
 
-public class ParametrsString
-{
-    private String tFrom;
-    private String tTo;
-    private String xFrom;
-    private String xTo;
-    private String fragmentationT;
-    private String fragmentationX;
-    private String eSystem;
+public class ParametrsString {
+	private String tFrom;
+	private String tTo;
+	private String xFrom;
+	private String xTo;
+	private String fragmentationT;
+	private String fragmentationX;
+	private String eSystemSquare;
+	private String eSystemCube;
+	private String eRunge;
+	private String maxIterProgonka;
+	private String maxIterBigDecimal;
 
-    public ParametrsString()
-    {
+	public String gettFrom() {
+		return tFrom;
+	}
 
-    }
+	public void settFrom(String tFrom) {
+		this.tFrom = tFrom;
+	}
 
-    public ParametrsString(String tFrom, String tTo, String xFrom, String xto, String fragmentationT,
-            String fragmentationX, String eSystem)
-    {
-        super();
-        this.tFrom = tFrom;
-        this.tTo = tTo;
-        this.xFrom = xFrom;
-        this.xTo = xto;
-        this.fragmentationT = fragmentationT;
-        this.fragmentationX = fragmentationX;
-        this.eSystem = eSystem;
-    }
+	public String gettTo() {
+		return tTo;
+	}
 
-    public String gettFrom()
-    {
-        return tFrom;
-    }
+	public void settTo(String tTo) {
+		this.tTo = tTo;
+	}
 
-    public void settFrom(String tFrom)
-    {
-        this.tFrom = tFrom;
-    }
+	public String getxFrom() {
+		return xFrom;
+	}
 
-    public String gettTo()
-    {
-        return tTo;
-    }
+	public void setxFrom(String xFrom) {
+		this.xFrom = xFrom;
+	}
 
-    public void settTo(String tTo)
-    {
-        this.tTo = tTo;
-    }
+	public String getxTo() {
+		return xTo;
+	}
 
-    public String getxFrom()
-    {
-        return xFrom;
-    }
+	public void setxTo(String xTo) {
+		this.xTo = xTo;
+	}
 
-    public void setxFrom(String xFrom)
-    {
-        this.xFrom = xFrom;
-    }
+	public String getFragmentationT() {
+		return fragmentationT;
+	}
 
-    public String getxTo()
-    {
-        return xTo;
-    }
+	public void setFragmentationT(String fragmentationT) {
+		this.fragmentationT = fragmentationT;
+	}
 
-    public void setxTo(String xTo)
-    {
-        this.xTo = xTo;
-    }
+	public String getFragmentationX() {
+		return fragmentationX;
+	}
 
-    public String getFragmentationT()
-    {
-        return fragmentationT;
-    }
+	public void setFragmentationX(String fragmentationX) {
+		this.fragmentationX = fragmentationX;
+	}
 
-    public void setFragmentationT(String fragmentationT)
-    {
-        this.fragmentationT = fragmentationT;
-    }
+	public String geteSystemSquare() {
+		return eSystemSquare;
+	}
 
-    public String getFragmentationX()
-    {
-        return fragmentationX;
-    }
+	public void seteSystemSquare(String eSystemSquare) {
+		this.eSystemSquare = eSystemSquare;
+	}
 
-    public void setFragmentationX(String fragmentationX)
-    {
-        this.fragmentationX = fragmentationX;
-    }
+	public String geteSystemCube() {
+		return eSystemCube;
+	}
 
-    public String geteSystem()
-    {
-        return eSystem;
-    }
+	public void seteSystemCube(String eSystemCube) {
+		this.eSystemCube = eSystemCube;
+	}
 
-    public void seteSystem(String eSystem)
-    {
-        this.eSystem = eSystem;
-    }
+	public String geteRunge() {
+		return eRunge;
+	}
+
+	public void seteRunge(String eRunge) {
+		this.eRunge = eRunge;
+	}
+
+	public String getMaxIterProgonka() {
+		return maxIterProgonka;
+	}
+
+	public void setMaxIterProgonka(String maxIterProgonka) {
+		this.maxIterProgonka = maxIterProgonka;
+	}
+
+	public String getMaxIterBigDecimal() {
+		return maxIterBigDecimal;
+	}
+
+	public void setMaxIterBigDecimal(String maxIterBigDecimal) {
+		this.maxIterBigDecimal = maxIterBigDecimal;
+	}
 
 }
